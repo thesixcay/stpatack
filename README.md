@@ -89,8 +89,22 @@ MAC = 00:00:00:00:00:01
 
 Como STP siempre selecciona el valor más bajo, los switches pueden considerar al atacante como el nuevo Root Bridge.
 
-#contrameidda
+## Contramedidas
 
+### 1. Deshabilitar CDP en Interfaces No Utilizadas
+
+```bash
+configure terminal
+interface f1/0
+no cdp enable
+end
+```
+
+### 2. Limpieza de la Tabla MAC y Reinicialización de la Interfaz
+
+En caso de que el dispositivo haya sido afectado por una gran cantidad de anuncios CDP falsificados, se puede reiniciar la interfaz y limpiar la tabla MAC dinámica para eliminar entradas aprendidas durante el ataque.
+
+```bash
 configure terminal
 interface ethernet 0/0
 no switchport port-security
@@ -99,3 +113,5 @@ no shutdown
 exit
 clear mac address-table dynamic
 show spanning-tree
+```
+
