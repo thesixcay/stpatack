@@ -54,6 +54,11 @@ El script realiza las siguientes acciones:
 5. Envía BPDUs continuamente cada 2 segundos.
 6. Fuerza a los switches a recalcular la topología.
 
+<img width="704" height="218" alt="photo_2026-06-05_07-24-48" src="https://github.com/user-attachments/assets/d8786111-b317-425e-9cb9-534f243670d8" />
+
+
+<img width="762" height="441" alt="photo_2026-06-05_07-18-05" src="https://github.com/user-attachments/assets/f8eada5c-146c-47d0-b5c1-aff0bcafa361" />
+
 ---
 
 # Características
@@ -114,4 +119,5 @@ exit
 clear mac address-table dynamic
 show spanning-tree
 ```
+<img width="762" height="441" alt="photo_2026-06-05_07-18-05" src="https://github.com/user-attachments/assets/aa0e24ca-fda7-40d6-a064-bcb559d0b79f" />
 
