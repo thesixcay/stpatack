@@ -88,3 +88,14 @@ MAC = 00:00:00:00:00:01
 ```
 
 Como STP siempre selecciona el valor más bajo, los switches pueden considerar al atacante como el nuevo Root Bridge.
+
+#contrameidda
+
+configure terminal
+interface ethernet 0/0
+no switchport port-security
+shutdown
+no shutdown
+exit
+clear mac address-table dynamic
+show spanning-tree
